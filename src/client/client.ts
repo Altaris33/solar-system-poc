@@ -77,7 +77,8 @@ const uranusTexture = loader.load("assets/textures/uranus.jpg")
 const neptuneTexture = loader.load("assets/textures/neptune.jpg")
 const moonTexture = loader.load("assets/textures/moon.jpg")
 const phobosTexture = loader.load("assets/textures/phobos.jpg")
-
+const earthCloudsTexture = loader.load("assets/textures/earth_clouds.png") 
+const starfieldTexture = loader.load("assets/textures/background.jpeg")
 
 // geometries
 const sunGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(6, 32, 32)
@@ -90,6 +91,8 @@ const saturnGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 const uranusGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 const neptuneGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 const moonGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32)
+const earthCloudGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1.1, 32, 32)
+const starfieldGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(850, 50, 50)
 //console.dir(sunGeometry)
 
 const sunMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: sunTexture })
@@ -102,6 +105,8 @@ const saturnMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map
 const uranusMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: uranusTexture})
 const neptuneMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: neptuneTexture})
 const moonMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: moonTexture})
+const earthCloudMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: earthCloudsTexture, transparent: true, opacity: 0.2})
+const starfieldMaterial: THREE.MeshPhongMaterial = new THREE.MeshPhongMaterial({map: starfieldTexture, side: THREE.DoubleSide, shininess: 0})
 
 // Groups
 const mercuryGroup: THREE.Group = new THREE.Group()
@@ -113,6 +118,7 @@ const saturnGroup: THREE.Group = new THREE.Group()
 const uranusGroup: THREE.Group = new THREE.Group()
 const neptuneGroup: THREE.Group = new THREE.Group()
 const moonGroup: THREE.Group = new THREE.Group()
+const earthCloudGroup: THREE.Group = new THREE.Group()
 
 const sun: THREE.Mesh = new THREE.Mesh(sunGeometry, sunMaterial)
 const mercury: THREE.Mesh = new THREE.Mesh(mercuryGeometry, mercuryMaterial)
@@ -124,6 +130,8 @@ const saturn: THREE.Mesh = new THREE.Mesh(saturnGeometry, saturnMaterial)
 const uranus: THREE.Mesh = new THREE.Mesh(uranusGeometry, uranusMaterial)
 const neptune: THREE.Mesh = new THREE.Mesh(neptuneGeometry, neptuneMaterial)
 const moon: THREE.Mesh = new THREE.Mesh(moonGeometry, moonMaterial)
+const earthClouds: THREE.Mesh = new THREE.Mesh(earthCloudGeometry, earthCloudMaterial)
+const starfield: THREE.Mesh = new THREE.Mesh(starfieldGeometry, starfieldMaterial)
 
 sun.position.x = 0
 sun.position.y = 0
@@ -141,6 +149,7 @@ mercuryGroup.add(mercury)
 scene.add(mercuryGroup)
 scene.add(venus)
 scene.add(earth)*/
+scene.add(starfield)
 scene.add(sun)
 generatePlanet(scene, mercury,mercuryGroup, 60, 0.7)
 generatePlanet(scene, venus, venusGroup, 66, 0.8)
@@ -150,6 +159,7 @@ generatePlanet(scene, jupiter, jupiterGroup, 120, 4)
 generatePlanet(scene, saturn, saturnGroup, 150, 3.6)
 generatePlanet(scene, uranus, uranusGroup, 178, 2)
 generatePlanet(scene, neptune, neptuneGroup, 199, 1.9)
+generatePlanet(scene, earthClouds, earthCloudGroup, 72, 1)
 
 moon.position.x = 0
 moon.scale.setScalar(0.1)
@@ -202,6 +212,8 @@ var animate = function () {
 
     earthGroup.rotation.y += 0.00365
     earth.rotation.y += 0.001
+    earthCloudGroup.rotation.y += 0.00365
+    earthClouds.rotation.y -= 0.0005
 
     marsGroup.rotation.y += 0.00687
     mars.rotation.y +=  0.00098
