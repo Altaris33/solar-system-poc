@@ -1,5 +1,6 @@
 import * as THREE from '/build/three.module.js';
 import { OrbitControls } from '/jsm/controls/OrbitControls';
+import Stats from '/jsm/libs/stats.module';
 //---------------------
 // scene & Helpers
 //---------------------
@@ -17,6 +18,9 @@ const spotlight = new THREE.SpotLight(0xEEFFFF, 5, 25, Math.PI / 7);
 spotlight.position.set(25, 0, 0);
 scene.add(spotlight);
 // scene.add( new THREE.SpotLightHelper( spotlight ));
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040); // Ambient light
+scene.add(ambientLight);
 //---------------
 // camera 
 //---------------
@@ -28,6 +32,11 @@ camera.position.set(82, 126, 156);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+// ----------------
+// stats
+// ----------------
+const stats = Stats();
+document.body.appendChild(stats.dom);
 // ----------------
 // Controls for user-end purposes
 // ----------------
@@ -49,15 +58,15 @@ const neptuneTexture = loader.load("assets/textures/neptune.jpg");
 const moonTexture = loader.load("assets/textures/moon.jpg");
 const phobosTexture = loader.load("assets/textures/phobos.jpg");
 // geometries
-const sunGeometry = new THREE.SphereGeometry(6, 24, 24);
-const mercuryGeometry = new THREE.SphereGeometry(1, 24, 24);
-const venusGeometry = new THREE.SphereGeometry(1, 24, 24);
-const earthGeometry = new THREE.SphereGeometry(1, 24, 24);
-const marsGeometry = new THREE.SphereGeometry(1, 24, 24);
-const jupiterGeometry = new THREE.SphereGeometry(1, 24, 24);
-const saturnGeometry = new THREE.SphereGeometry(1, 24, 24);
-const uranusGeometry = new THREE.SphereGeometry(1, 24, 24);
-const neptuneGeometry = new THREE.SphereGeometry(1, 24, 24);
+const sunGeometry = new THREE.SphereGeometry(6, 32, 32);
+const mercuryGeometry = new THREE.SphereGeometry(1, 32, 32);
+const venusGeometry = new THREE.SphereGeometry(1, 32, 32);
+const earthGeometry = new THREE.SphereGeometry(1, 32, 32);
+const marsGeometry = new THREE.SphereGeometry(1, 32, 32);
+const jupiterGeometry = new THREE.SphereGeometry(1, 32, 32);
+const saturnGeometry = new THREE.SphereGeometry(1, 32, 32);
+const uranusGeometry = new THREE.SphereGeometry(1, 32, 32);
+const neptuneGeometry = new THREE.SphereGeometry(1, 32, 32);
 //console.dir(sunGeometry)
 const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
 const mercuryMaterial = new THREE.MeshBasicMaterial({ map: mercuryTexture });
@@ -152,13 +161,16 @@ var animate = function () {
     neptune.rotation.y += 0.021;
     controls.update();
     render();
+    stats.update();
     // (document.getElementById("displayer") as HTMLDivElement).innerText = "Matrix\n" + sun.matrix.elements.toString().replace(/,/g, "\n",)
 };
 // -------------------------
 // RENDER FUNCTION
 // -------------------------
 function render() {
+    stats.begin();
     renderer.render(scene, camera);
+    stats.end();
 }
 //render() 
 animate();

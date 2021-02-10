@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Three Captain</title>
+    <style type="text/css">
+        @font-face {
+            font-family: "HeadFont";
+            src: url("fonts/SpaceMono-Regular.ttf") format("truetype");
+        }
+        p.head-font{
+            font-family: "HeadFont", Arial, Helvetica, sans-serif;
+        }
+    </style>
     <style>
         body {
             background-color: #000000;
@@ -13,8 +22,8 @@
         #displayer {
             position: absolute;
             left: 10px;
-            top: 50px;
-            border: 1px solid #5cd9ff;
+            top: 70px;
+            border: 2px solid #5cd9ff;
             width: 190px;
             height: 400px;
             color: #5cd9ff;
@@ -27,7 +36,7 @@
 <body>
     <div style=" padding-top: 0px; height: 80px;">
         <center>
-            <font size=18; color="#00E5E5"><h3> Welcome to our Solar System... </h3></font>
+            <font size=18; color="#5cd9ff"><p class="head-font"> Welcome to our Solar System... </p></font>
         </center>
     </div>
     <div id="displayer"></div>
