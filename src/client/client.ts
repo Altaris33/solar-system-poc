@@ -14,19 +14,21 @@ scene.add(new THREE.GridHelper(155,155))
 // --------------------
 // Lights
 // --------------------
+function generateLights(){
+    const centerLight: THREE.PointLight = new THREE.PointLight(0xFFDDFF,1,5);
+    centerLight.position.set(0,0,0)
+    scene.add(centerLight)
 
-const centerLight: THREE.PointLight = new THREE.PointLight(0xFFDDFF,1,5);
-centerLight.position.set(0,0,0)
-scene.add(centerLight)
+    const spotlight = new THREE.SpotLight(0xEEFFFF, 5, 25, Math.PI/7);
+    spotlight.position.set(25, 0, 0);
+    scene.add(spotlight);
+    // scene.add( new THREE.SpotLightHelper( spotlight ));
 
-const spotlight = new THREE.SpotLight(0xEEFFFF, 5, 25, Math.PI/7);
-spotlight.position.set(25, 0, 0);
-scene.add(spotlight);
-// scene.add( new THREE.SpotLightHelper( spotlight ));
+    // Lighting
+    const ambientLight = new THREE.AmbientLight( 0x404040);  // Ambient light
+    scene.add(ambientLight)
+}
 
-// Lighting
-const ambientLight = new THREE.AmbientLight( 0x404040);  // Ambient light
-scene.add(ambientLight)
 
 
 //---------------
@@ -87,6 +89,7 @@ const jupiterGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32
 const saturnGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 const uranusGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 const neptuneGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32)
+const moonGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 //console.dir(sunGeometry)
 
 const sunMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: sunTexture })
@@ -98,6 +101,7 @@ const jupiterMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ma
 const saturnMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: saturnTexture})
 const uranusMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: uranusTexture})
 const neptuneMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: neptuneTexture})
+const moonMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: moonTexture})
 
 // Groups
 const mercuryGroup: THREE.Group = new THREE.Group()
@@ -108,6 +112,7 @@ const jupiterGroup: THREE.Group = new THREE.Group()
 const saturnGroup: THREE.Group = new THREE.Group()
 const uranusGroup: THREE.Group = new THREE.Group()
 const neptuneGroup: THREE.Group = new THREE.Group()
+const moonGroup: THREE.Group = new THREE.Group()
 
 const sun: THREE.Mesh = new THREE.Mesh(sunGeometry, sunMaterial)
 const mercury: THREE.Mesh = new THREE.Mesh(mercuryGeometry, mercuryMaterial)
@@ -118,6 +123,7 @@ const jupiter: THREE.Mesh = new THREE.Mesh(jupiterGeometry, jupiterMaterial)
 const saturn: THREE.Mesh = new THREE.Mesh(saturnGeometry, saturnMaterial)
 const uranus: THREE.Mesh = new THREE.Mesh(uranusGeometry, uranusMaterial)
 const neptune: THREE.Mesh = new THREE.Mesh(neptuneGeometry, neptuneMaterial)
+const moon: THREE.Mesh = new THREE.Mesh(moonGeometry, moonMaterial)
 
 sun.position.x = 0
 sun.position.y = 0
@@ -144,6 +150,10 @@ generatePlanet(scene, jupiter, jupiterGroup, 120, 4)
 generatePlanet(scene, saturn, saturnGroup, 150, 3.6)
 generatePlanet(scene, uranus, uranusGroup, 178, 2)
 generatePlanet(scene, neptune, neptuneGroup, 199, 1.9)
+
+moon.position.x = 0
+moon.scale.setScalar(0.1)
+
 
 
 // camera.position.z = 10
@@ -230,4 +240,5 @@ function render(){
 //render() 
 
 buildGUI()
+generateLights()
 animate()

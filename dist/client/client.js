@@ -12,16 +12,18 @@ scene.add(new THREE.GridHelper(155, 155));
 // --------------------
 // Lights
 // --------------------
-const centerLight = new THREE.PointLight(0xFFDDFF, 1, 5);
-centerLight.position.set(0, 0, 0);
-scene.add(centerLight);
-const spotlight = new THREE.SpotLight(0xEEFFFF, 5, 25, Math.PI / 7);
-spotlight.position.set(25, 0, 0);
-scene.add(spotlight);
-// scene.add( new THREE.SpotLightHelper( spotlight ));
-// Lighting
-const ambientLight = new THREE.AmbientLight(0x404040); // Ambient light
-scene.add(ambientLight);
+function generateLights() {
+    const centerLight = new THREE.PointLight(0xFFDDFF, 1, 5);
+    centerLight.position.set(0, 0, 0);
+    scene.add(centerLight);
+    const spotlight = new THREE.SpotLight(0xEEFFFF, 5, 25, Math.PI / 7);
+    spotlight.position.set(25, 0, 0);
+    scene.add(spotlight);
+    // scene.add( new THREE.SpotLightHelper( spotlight ));
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0x404040); // Ambient light
+    scene.add(ambientLight);
+}
 //---------------
 // camera 
 //---------------
@@ -68,6 +70,7 @@ const jupiterGeometry = new THREE.SphereGeometry(1, 32, 32);
 const saturnGeometry = new THREE.SphereGeometry(1, 32, 32);
 const uranusGeometry = new THREE.SphereGeometry(1, 32, 32);
 const neptuneGeometry = new THREE.SphereGeometry(1, 32, 32);
+const moonGeometry = new THREE.SphereGeometry(1, 32, 32);
 //console.dir(sunGeometry)
 const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
 const mercuryMaterial = new THREE.MeshBasicMaterial({ map: mercuryTexture });
@@ -78,6 +81,7 @@ const jupiterMaterial = new THREE.MeshBasicMaterial({ map: jupiterTexture });
 const saturnMaterial = new THREE.MeshBasicMaterial({ map: saturnTexture });
 const uranusMaterial = new THREE.MeshBasicMaterial({ map: uranusTexture });
 const neptuneMaterial = new THREE.MeshBasicMaterial({ map: neptuneTexture });
+const moonMaterial = new THREE.MeshBasicMaterial({ map: moonTexture });
 // Groups
 const mercuryGroup = new THREE.Group();
 const venusGroup = new THREE.Group();
@@ -87,6 +91,7 @@ const jupiterGroup = new THREE.Group();
 const saturnGroup = new THREE.Group();
 const uranusGroup = new THREE.Group();
 const neptuneGroup = new THREE.Group();
+const moonGroup = new THREE.Group();
 const sun = new THREE.Mesh(sunGeometry, sunMaterial);
 const mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
 const venus = new THREE.Mesh(venusGeometry, venusMaterial);
@@ -96,6 +101,7 @@ const jupiter = new THREE.Mesh(jupiterGeometry, jupiterMaterial);
 const saturn = new THREE.Mesh(saturnGeometry, saturnMaterial);
 const uranus = new THREE.Mesh(uranusGeometry, uranusMaterial);
 const neptune = new THREE.Mesh(neptuneGeometry, neptuneMaterial);
+const moon = new THREE.Mesh(moonGeometry, moonMaterial);
 sun.position.x = 0;
 sun.position.y = 0;
 sun.position.z = 0;
@@ -121,6 +127,8 @@ generatePlanet(scene, jupiter, jupiterGroup, 120, 4);
 generatePlanet(scene, saturn, saturnGroup, 150, 3.6);
 generatePlanet(scene, uranus, uranusGroup, 178, 2);
 generatePlanet(scene, neptune, neptuneGroup, 199, 1.9);
+moon.position.x = 0;
+moon.scale.setScalar(0.1);
 // camera.position.z = 10
 window.addEventListener('resize', onWindowResize, false);
 function onWindowResize() {
@@ -183,4 +191,5 @@ function render() {
 }
 //render() 
 buildGUI();
+generateLights();
 animate();
