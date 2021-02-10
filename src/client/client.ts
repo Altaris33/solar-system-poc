@@ -9,7 +9,9 @@ import { GUI } from '/jsm/libs/dat.gui.module'
 const scene: THREE.Scene = new THREE.Scene()
 var axesHelper = new THREE.AxesHelper(12)
 scene.add(axesHelper)
-scene.add(new THREE.GridHelper(155,155))
+var grid = new THREE.GridHelper(155,155)
+//scene.add(new THREE.GridHelper(155,155))
+scene.add(grid)
 
 // --------------------
 // Lights
@@ -58,9 +60,30 @@ document.body.appendChild(stats.dom)
 
 // ----------------
 // Controls for user-end purposes
-// ----------------
+// ----------------  
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.addEventListener('change', render)
+//controls.autoRotate = true 
+//controls.rotateSpeed = 1
+//controls.enableDamping = true 
+controls.enableKeys = true
+controls.keys ={
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    BOTTOM: 40
+}
+// interaction for mobile phones 
+controls.touches = {
+    ONE: THREE.TOUCH.ROTATE,
+    TWO: THREE.TOUCH.DOLLY_PAN
+}
+controls.minAzimuthAngle = 0
+controls.maxAzimuthAngle = Math.PI / 2 + 10
+controls.minPolarAngle = Math.PI / 4 
+controls.maxPolarAngle = Math.PI - (Math.PI / 4)
+
+
 
 //-------------
 // loaders for each planet and moon
@@ -192,8 +215,21 @@ function generatePlanet(scene: THREE.Scene, mesh: THREE.Mesh, group: THREE.Group
 function buildGUI(){
     const gui = new GUI()
     const planetsFolder = gui.addFolder("Planets")
+    const mercuryFolder = planetsFolder.addFolder("Mercury")
+    const venusFolder = planetsFolder.addFolder("Venus")
+    const earthFolder = planetsFolder.addFolder("Earth")
+    const marsFolder = planetsFolder.addFolder("Mars")
+    const jupiterFolder = planetsFolder.addFolder("Jupiter")
+    const saturnFolder = planetsFolder.addFolder("Saturn")
+    const uranusFolder = planetsFolder.addFolder("Uranus")
+    const neptuneFolder = planetsFolder.addFolder("Neptune")
+
+    const gridFolder = gui.addFolder("Grid Helper")
+    gridFolder.add(grid, "visible", true)
     planetsFolder.open()
+    gridFolder.open()
 }
+
 
 
 // -------------------------
@@ -201,6 +237,7 @@ function buildGUI(){
 // -------------------------
 var animate = function () {
     requestAnimationFrame(animate)
+    controls.update()
 
     sun.rotation.y += 0.0002
 
@@ -230,10 +267,12 @@ var animate = function () {
     neptuneGroup.rotation.y += 0.000165
     neptune.rotation.y += 0.021
 
-    controls.update()
-    render();
-    stats.update()
+   
+    render()
+    stats.update();
     // (document.getElementById("displayer") as HTMLDivElement).innerText = "Matrix\n" + sun.matrix.elements.toString().replace(/,/g, "\n",)
+    // (document.getElementById("displayer") as HTMLDivElement).innerText = "<strong>Mercury</strong>","\n")
+    
 
 };
 
@@ -250,7 +289,6 @@ function render(){
 }
 
 //render() 
-
 buildGUI()
 generateLights()
 animate()
