@@ -1,6 +1,7 @@
 import * as THREE from '/build/three.module.js';
 import { OrbitControls } from '/jsm/controls/OrbitControls';
 import Stats from '/jsm/libs/stats.module';
+import { GUI } from '/jsm/libs/dat.gui.module';
 //---------------------
 // scene & Helpers
 //---------------------
@@ -138,6 +139,14 @@ function generatePlanet(scene, mesh, group, x, scale) {
     scene.add(group);
 }
 // -------------------------
+// GUI settings
+// -------------------------
+function buildGUI() {
+    const gui = new GUI();
+    const planetsFolder = gui.addFolder("Planets");
+    planetsFolder.open();
+}
+// -------------------------
 // ANIMATION FUNCTION
 // -------------------------
 var animate = function () {
@@ -173,4 +182,5 @@ function render() {
     stats.end();
 }
 //render() 
+buildGUI();
 animate();

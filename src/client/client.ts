@@ -1,6 +1,7 @@
 import * as THREE from '/build/three.module.js'
 import { OrbitControls } from '/jsm/controls/OrbitControls'
 import Stats from '/jsm/libs/stats.module'
+import { GUI } from '/jsm/libs/dat.gui.module' 
 
 //---------------------
 // scene & Helpers
@@ -27,6 +28,7 @@ scene.add(spotlight);
 const ambientLight = new THREE.AmbientLight( 0x404040);  // Ambient light
 scene.add(ambientLight)
 
+
 //---------------
 // camera 
 //---------------
@@ -39,6 +41,12 @@ camera.position.set(82,126,156)
 const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
+
+
+
+
+
+
 
 // ----------------
 // stats
@@ -158,6 +166,15 @@ function generatePlanet(scene: THREE.Scene, mesh: THREE.Mesh, group: THREE.Group
     scene.add(group)
 }
 
+// -------------------------
+// GUI settings
+// -------------------------
+function buildGUI(){
+    const gui = new GUI()
+    const planetsFolder = gui.addFolder("Planets")
+    planetsFolder.open()
+}
+
 
 // -------------------------
 // ANIMATION FUNCTION
@@ -212,4 +229,5 @@ function render(){
 
 //render() 
 
-animate();
+buildGUI()
+animate()
