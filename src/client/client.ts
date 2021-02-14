@@ -2,6 +2,7 @@ import * as THREE from '/build/three.module.js'
 import { OrbitControls } from '/jsm/controls/OrbitControls'
 import Stats from '/jsm/libs/stats.module'
 import { GUI } from '/jsm/libs/dat.gui.module' 
+import { Vector3 } from '/build/three.module.js'
 
 //---------------------
 // scene & Helpers
@@ -172,8 +173,10 @@ mercuryGroup.add(mercury)
 scene.add(mercuryGroup)
 scene.add(venus)
 scene.add(earth)*/
+let arrayRaycast = []
 scene.add(starfield)
 scene.add(sun)
+arrayRaycast.push(sun)
 generatePlanet(scene, mercury,mercuryGroup, 60, 0.7)
 generatePlanet(scene, venus, venusGroup, 66, 0.8)
 generatePlanet(scene, earth, earthGroup, 72, 1)
@@ -207,6 +210,7 @@ function generatePlanet(scene: THREE.Scene, mesh: THREE.Mesh, group: THREE.Group
     mesh.scale.setScalar(scale)
     group.add(mesh)
     scene.add(group)
+    arrayRaycast.push(mesh)
 }
 
 // -------------------------
@@ -231,6 +235,33 @@ function buildGUI(){
 }
 
 
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+
+function onDocumentMouseDown(event) {
+
+    event.preventDefault();
+
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+    raycaster.setFromCamera( mouse, camera );
+
+    var intersects = raycaster.intersectObjects(arrayRaycast); 
+
+    let target: Vector3 = new Vector3()
+    if ( intersects.length > 0 ) {
+
+        //camera.lookAt(intersects[0].object.getWorldPosition(target))
+        intersects[0].object.material.color.set(0xff0000)
+        
+        console.log(intersects)
+
+    }
+
+}
+
+window.addEventListener('click', onDocumentMouseDown, false);
 
 // -------------------------
 // ANIMATION FUNCTION
